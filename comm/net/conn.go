@@ -1,13 +1,16 @@
 package net
+
+import (
+	"net"
+)
  
-type OnConnettingFunc func(err error);
+type ConnCallBackFunc func(net.Conn,err error);
 
 
 type Conn interface {
-	Recv() interface{} 	error
+	Recv() interface{} ,	error
 	Send(interface{}) 	error 
 	Close()				error
 
-    connCallBack	 OnConnettingFunc; 
-	errorCallBack	 OCloseingFunc; 
+
 }

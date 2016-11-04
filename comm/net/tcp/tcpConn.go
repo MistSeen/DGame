@@ -5,40 +5,39 @@ import (
 	"time"
 )
 
-type TcpConnPool map[net.Conn]struct{}
+type TcpConnSet map[net.Conn]struct{}
 
 type TcpConn struct {
-	conn      net.TCPConn
-	Chans	  chan []byte 
+	conn  net.TCPConn
+	Chans chan []byte
 }
 
-func newTcpConn(conn net.TCPConn) *TcpConn {
-	tcpConn = &TcpConn{conn: conn}
-	tcpConn.Chans = make(chan []byte, 10]) 
-	tcpConn.SetReadDeadline(60*1000);
-	go func ()  {
-		for b := range tcpConn.Chans {
-			if b == nil {
-				break
-			}
+func NewTcpConn(conn net.Conn) *TcpConn {
+	tcpConn := &TcpConn{conn: conn}
+	tcpConn.Chans = make(chan []byte, 10)
+	//	go func ()  {
+	//		for b := range tcpConn.Chans {
+	//			if b == nil {
+	//				break
+	//			}
 
-			_, err := conn.Write(b)
-			if err != nil {
-				break
-			}
-		}
+	//			_, err := conn.Write(b)
+	//			if err != nil {
+	//				break
+	//			}
+	//		}
 
-		conn.Close()
-		tcpConn.Lock()
-		tcpConn.closeFlag = true
-		tcpConn.Unlock()
-	}
+	//		conn.Close()
+	//		tcpConn.Lock()
+	//		tcpConn.closeFlag = true
+	//		tcpConn.Unlock()
+	//	}
 	return tcpConn
 }
 
-func (c *TcpConn) SetReadDeadline(millisecond int) (err error) {
-	c.conn.SetReadDeadline(time.Now().Add(millisecond/time.Millisecond) )
-} 
+func (c *TcpConn) SetDeadline(second int) (err error) {
+	c.conn.SetDeadline()(time.Now().Add(second * time.Second))
+}
 
 func (c *TcpConn) Close() (err error) {
 	c.conn.Close()
