@@ -64,7 +64,7 @@ func (s *BinStream) packing(v *reflect.Value) {
 		s.WriteFloat64(float64(v.Float()))
 	case reflect.String:
 		s.WriteString(v.String())
-	case reflect.Array, reflect.slice:
+	case reflect.Array, reflect.Slice:
 		s.packSlice(v)
 	case reflect.Interface, reflect.Ptr:
 		s.packing(v.Elem())
@@ -77,7 +77,7 @@ func (s *BinStream) packing(v *reflect.Value) {
 
 func (s *BinStream) packSlice(v *reflect.Value) {
 	if bs, ok := v.Interface().([]byte); ok { // special treat for []bytes
-		writer.WriteBytes(bs)
+		s.WriteBytes(bs)
 	} else {
 		len := v.Len()
 		s.WriteUint16(uint16(len))

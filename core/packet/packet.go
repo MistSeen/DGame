@@ -1,6 +1,6 @@
 package packet
 
-type PacketReader interface {
+type IPacketReader interface {
 	ReadByte() (ret byte, err error)
 	ReadBool() (ret bool, err error)
 	ReadBytes() (ret []byte, err error)
@@ -19,7 +19,7 @@ type PacketReader interface {
 	ReadFloat64() (ret float64, err error)
 }
 
-type PacketWriter interface {
+type IPacketWriter interface {
 	WriteZeros(n int)
 	WriteBool(v bool)
 	WriteByte(v byte)
@@ -37,4 +37,8 @@ type PacketWriter interface {
 	WriteInt64(v int64)
 	WriteFloat32(f float32)
 	WriteFloat64(f float64)
+}
+
+type IUnpacker interface {
+
 }
